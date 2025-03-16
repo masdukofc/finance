@@ -1,0 +1,67 @@
+/* Add custom styles if needed for specific components */
+
+/* Ensuring responsiveness on smaller devices */
+@media (max-width: 640px) {
+    .container {
+        padding: 16px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 640px) {
+    .container {
+        padding: 32px;
+    }
+    h1 {
+        font-size: 2.5rem;
+    }
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-cols-2 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Card and Table styling */
+.card {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    text-align: center;
+    padding: 8px;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9fafb;
+}
+
+/* Button styling */
+button {
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #4CAF50;
+    color: white;
+}

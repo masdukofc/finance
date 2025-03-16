@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Split</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.0/dist/xlsx.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-800 text-white">
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold text-center mb-6">Revenue Split Management</h1>
+        
+        <div class="bg-gray-900 p-4 rounded-md mb-6">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-1">
+                    <label for="defaultDate" class="block">Default Date:</label>
+                    <input type="date" id="defaultDate" class="w-full p-2 bg-gray-700 rounded">
+                </div>
+                <div class="col-span-1">
+                    <label for="defaultClientFxRate" class="block">Default Client FX Rate:</label>
+                    <input type="number" id="defaultClientFxRate" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter Client FX Rate">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-900 p-4 rounded-md mb-6">
+            <h2 class="text-xl font-bold mb-4">Add Revenue Entry</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-1">
+                    <label for="artistName" class="block">Artist Name:</label>
+                    <input type="text" id="artistName" class="w-full p-2 bg-gray-700 rounded" placeholder="Enter Artist Name">
+                </div>
+                <div class="col-span-1">
+                    <label for="labelName" class="block">Label Name:</label>
+                    <input type="text" id="labelName" class="w-full p-2 bg-gray-700 rounded" placeholder="Enter Label Name">
+                </div>
+                <div class="col-span-1">
+                    <label for="usd" class="block">USD:</label>
+                    <input type="number" id="usd" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter USD Amount">
+                </div>
+                <div class="col-span-1">
+                    <label for="companyFxRate" class="block">Company FX Rate:</label>
+                    <input type="number" id="companyFxRate" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter Company FX Rate">
+                </div>
+                <div class="col-span-1">
+                    <label for="revenueDeduction" class="block">Revenue Deduction (%):</label>
+                    <input type="number" id="revenueDeduction" class="w-full p-2 bg-gray-700 rounded" placeholder="Enter Revenue Deduction %" step="0.01">
+                </div>
+                <div class="col-span-1">
+                    <label for="prevMonthDue" class="block">Previous Month Due:</label>
+                    <input type="number" id="prevMonthDue" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter Previous Month Due">
+                </div>
+            </div>
+            <button id="addEntry" class="bg-blue-600 px-6 py-2 mt-4 rounded-md">Add Entry</button>
+        </div>
+
+        <div class="bg-gray-900 p-4 rounded-md mb-6">
+            <h2 class="text-xl font-bold mb-4">Total Revenue</h2>
+            <div class="total-revenue-stats">
+                <p>Total Company Revenue: <span id="totalCompanyRevenue">0.00</span> BDT</p>
+                <p>Total Artist Revenue: <span id="totalArtistRevenue">0.00</span> BDT</p>
+                <p>Total Previous Due: <span id="totalPreviousDue">0.00</span> BDT</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-900 p-4 rounded-md">
+            <table id="revenueTable" class="min-w-full">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Label Name</th>
+                        <th class="px-4 py-2">Artist Name</th>
+                        <th class="px-4 py-2">USD</th>
+                        <th class="px-4 py-2">Client FX Rate</th>
+                        <th class="px-4 py-2">Company FX Rate</th>
+                        <th class="px-4 py-2">Client BDT</th>
+                        <th class="px-4 py-2">Company BDT</th>
+                        <th class="px-4 py-2">Revenue Deduction</th>
+                        <th class="px-4 py-2">Final Artist Revenue</th>
+                        <th class="px-4 py-2">Previous Month Due</th>
+                        <th class="px-4 py-2">Total Company Revenue</th>
+                        <th class="px-4 py-2">Company Bank Rate</th>
+                        <th class="px-4 py-2">Artist Bank Rate</th>
+                        <th class="px-4 py-2">Bank Rate Diff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <button id="exportExcel" class="bg-green-600 px-6 py-2 mt-4 rounded-md">Export to Excel</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revenue Split</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.0/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-800 text-white">
@@ -12,62 +13,61 @@
     <div class="container mx-auto p-8">
         <h1 class="text-3xl font-bold text-center mb-6">Revenue Split Management</h1>
         
-        <div class="bg-gray-900 p-4 rounded-md mb-6">
-            <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-900 p-6 rounded-md mb-6 shadow-lg">
+            <div class="grid grid-cols-2 gap-6">
                 <div class="col-span-1">
-                    <label for="defaultDate" class="block">Default Date:</label>
-                    <input type="date" id="defaultDate" class="w-full p-2 bg-gray-700 rounded">
+                    <label for="defaultDate" class="block text-sm">Default Date:</label>
+                    <input type="date" id="defaultDate" class="w-full p-3 bg-gray-700 rounded text-white">
                 </div>
                 <div class="col-span-1">
-                    <label for="defaultClientFxRate" class="block">Default Client FX Rate:</label>
-                    <input type="number" id="defaultClientFxRate" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter Client FX Rate">
+                    <label for="defaultClientFxRate" class="block text-sm">Default Client FX Rate:</label>
+                    <input type="number" id="defaultClientFxRate" class="w-full p-3 bg-gray-700 rounded text-white" step="0.01" placeholder="Enter Client FX Rate">
                 </div>
             </div>
         </div>
 
-        <div class="bg-gray-900 p-4 rounded-md mb-6">
+        <div class="bg-gray-900 p-6 rounded-md mb-6 shadow-lg">
             <h2 class="text-xl font-bold mb-4">Add Revenue Entry</h2>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-6">
                 <div class="col-span-1">
-                    <label for="artistName" class="block">Artist Name:</label>
-                    <input type="text" id="artistName" class="w-full p-2 bg-gray-700 rounded" placeholder="Enter Artist Name">
+                    <label for="artistName" class="block text-sm">Artist Name:</label>
+                    <input type="text" id="artistName" class="w-full p-3 bg-gray-700 rounded text-white" placeholder="Enter Artist Name">
                 </div>
                 <div class="col-span-1">
-                    <label for="labelName" class="block">Label Name:</label>
-                    <input type="text" id="labelName" class="w-full p-2 bg-gray-700 rounded" placeholder="Enter Label Name">
+                    <label for="labelName" class="block text-sm">Label Name:</label>
+                    <input type="text" id="labelName" class="w-full p-3 bg-gray-700 rounded text-white" placeholder="Enter Label Name">
                 </div>
                 <div class="col-span-1">
-                    <label for="usd" class="block">USD:</label>
-                    <input type="number" id="usd" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter USD Amount">
+                    <label for="usd" class="block text-sm">USD:</label>
+                    <input type="number" id="usd" class="w-full p-3 bg-gray-700 rounded text-white" step="0.01" placeholder="Enter USD Amount">
                 </div>
                 <div class="col-span-1">
-                    <label for="companyFxRate" class="block">Company FX Rate:</label>
-                    <input type="number" id="companyFxRate" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter Company FX Rate">
+                    <label for="companyFxRate" class="block text-sm">Company FX Rate:</label>
+                    <input type="number" id="companyFxRate" class="w-full p-3 bg-gray-700 rounded text-white" step="0.01" placeholder="Enter Company FX Rate">
                 </div>
                 <div class="col-span-1">
-                    <label for="revenueDeduction" class="block">Revenue Deduction (%):</label>
-                    <input type="number" id="revenueDeduction" class="w-full p-2 bg-gray-700 rounded" placeholder="Enter Revenue Deduction %" step="0.01">
+                    <label for="revenueDeduction" class="block text-sm">Revenue Deduction (%):</label>
+                    <input type="number" id="revenueDeduction" class="w-full p-3 bg-gray-700 rounded text-white" placeholder="Enter Revenue Deduction %" step="0.01">
                 </div>
                 <div class="col-span-1">
-                    <label for="prevMonthDue" class="block">Previous Month Due:</label>
-                    <input type="number" id="prevMonthDue" class="w-full p-2 bg-gray-700 rounded" step="0.01" placeholder="Enter Previous Month Due">
+                    <label for="prevMonthDue" class="block text-sm">Previous Month Due:</label>
+                    <input type="number" id="prevMonthDue" class="w-full p-3 bg-gray-700 rounded text-white" step="0.01" placeholder="Enter Previous Month Due">
                 </div>
             </div>
-            <button id="addEntry" class="bg-blue-600 px-6 py-2 mt-4 rounded-md">Add Entry</button>
+            <button id="addEntry" class="bg-blue-600 px-6 py-2 mt-4 rounded-md hover:bg-blue-700 transition duration-200">Add Entry</button>
         </div>
 
-        <div class="bg-gray-900 p-4 rounded-md mb-6">
+        <div class="bg-gray-900 p-6 rounded-md mb-6 shadow-lg">
             <h2 class="text-xl font-bold mb-4">Total Revenue</h2>
-            <div class="total-revenue-stats">
-                <p>Total Company Revenue: <span id="totalCompanyRevenue">0.00</span> BDT</p>
-                <p>Total Artist Revenue: <span id="totalArtistRevenue">0.00</span> BDT</p>
-                <p>Total Previous Due: <span id="totalPreviousDue">0.00</span> BDT</p>
-            </div>
+            <p>Total Company Revenue: <span id="totalCompanyRevenue">0.00</span> BDT</p>
+            <p>Total Artist Revenue: <span id="totalArtistRevenue">0.00</span> BDT</p>
+            <p>Total Previous Due: <span id="totalPreviousDue">0.00</span> BDT</p>
+            <p>Total Company Profit: <span id="totalProfitOfCompany">0.00</span> BDT</p>
         </div>
 
-        <div class="bg-gray-900 p-4 rounded-md">
-            <table id="revenueTable" class="min-w-full">
-                <thead>
+        <div class="bg-gray-900 p-6 rounded-md shadow-lg">
+            <table id="revenueTable" class="min-w-full table-auto">
+                <thead class="bg-gray-700">
                     <tr>
                         <th class="px-4 py-2">Date</th>
                         <th class="px-4 py-2">Label Name</th>
@@ -81,20 +81,137 @@
                         <th class="px-4 py-2">Final Artist Revenue</th>
                         <th class="px-4 py-2">Previous Month Due</th>
                         <th class="px-4 py-2">Total Company Revenue</th>
+                        <th class="px-4 py-2">Profit of Company</th>
                         <th class="px-4 py-2">Company Bank Rate</th>
                         <th class="px-4 py-2">Artist Bank Rate</th>
                         <th class="px-4 py-2">Bank Rate Diff</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-gray-800">
                     <!-- Rows will be added here dynamically -->
                 </tbody>
             </table>
         </div>
 
-        <button id="exportExcel" class="bg-green-600 px-6 py-2 mt-4 rounded-md">Export to Excel</button>
+        <div class="flex justify-between mt-4">
+            <button id="exportCSV" class="bg-green-600 px-6 py-2 rounded-md hover:bg-green-700 transition duration-200">Export to CSV</button>
+            <button id="exportExcel" class="bg-yellow-600 px-6 py-2 rounded-md hover:bg-yellow-700 transition duration-200">Export to Excel</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let defaultDate = '';
+        let defaultClientFxRate = 0;
+
+        document.getElementById('defaultDate').addEventListener('change', function() {
+            defaultDate = this.value;
+        });
+
+        document.getElementById('defaultClientFxRate').addEventListener('input', function() {
+            defaultClientFxRate = parseFloat(this.value);
+        });
+
+        document.getElementById('addEntry').addEventListener('click', function() {
+            const artistName = document.getElementById('artistName').value;
+            const labelName = document.getElementById('labelName').value;
+            const usd = parseFloat(document.getElementById('usd').value);
+            const companyFxRate = parseFloat(document.getElementById('companyFxRate').value);
+            const revenueDeduction = parseFloat(document.getElementById('revenueDeduction').value);
+            const prevMonthDue = parseFloat(document.getElementById('prevMonthDue').value);
+
+            if (!artistName || !labelName || isNaN(usd) || isNaN(companyFxRate) || isNaN(revenueDeduction)) {
+                alert("Please fill all fields correctly!");
+                return;
+            }
+
+            const date = defaultDate || document.getElementById('defaultDate').value;
+            const clientFxRate = defaultClientFxRate || parseFloat(document.getElementById('defaultClientFxRate').value);
+
+            const clientBdt = usd * clientFxRate;
+            const companyBdt = usd * companyFxRate;
+            const revenueDeductionAmount = clientBdt * (revenueDeduction / 100);
+            const finalArtistRevenue = clientBdt - revenueDeductionAmount;
+            const totalCompanyRevenue = companyBdt + prevMonthDue;
+            const profitOfCompany = totalCompanyRevenue - finalArtistRevenue;
+
+            const companyBankRate = 124;
+            const artistBankRate = 115;
+            const bankRateDiff = companyBankRate - artistBankRate;
+
+            const row = document.createElement('tr');
+            row.classList.add('bg-gray-700');
+            row.innerHTML = `
+                <td class="px-4 py-2">${date}</td>
+                <td class="px-4 py-2">${labelName}</td>
+                <td class="px-4 py-2">${artistName}</td>
+                <td class="px-4 py-2">${usd.toFixed(2)}</td>
+                <td class="px-4 py-2">${clientFxRate.toFixed(2)}</td>
+                <td class="px-4 py-2">${companyFxRate.toFixed(2)}</td>
+                <td class="px-4 py-2">${clientBdt.toFixed(2)}</td>
+                <td class="px-4 py-2">${companyBdt.toFixed(2)}</td>
+                <td class="px-4 py-2">${revenueDeductionAmount.toFixed(2)}</td>
+                <td class="px-4 py-2">${finalArtistRevenue.toFixed(2)}</td>
+                <td class="px-4 py-2">${prevMonthDue.toFixed(2)}</td>
+                <td class="px-4 py-2">${totalCompanyRevenue.toFixed(2)}</td>
+                <td class="px-4 py-2">${profitOfCompany.toFixed(2)}</td>
+                <td class="px-4 py-2">${companyBankRate}</td>
+                <td class="px-4 py-2">${artistBankRate}</td>
+                <td class="px-4 py-2">${bankRateDiff}</td>
+            `;
+
+            document.querySelector('#revenueTable tbody').appendChild(row);
+
+            updateTotalRevenue();
+        });
+
+        function updateTotalRevenue() {
+            let totalCompanyRevenue = 0;
+            let totalArtistRevenue = 0;
+            let totalPrevDue = 0;
+            let totalProfitOfCompany = 0;
+
+            const rows = document.querySelectorAll('#revenueTable tbody tr');
+            rows.forEach(row => {
+                totalCompanyRevenue += parseFloat(row.children[10].textContent);
+                totalArtistRevenue += parseFloat(row.children[9].textContent);
+                totalPrevDue += parseFloat(row.children[10].textContent);
+                totalProfitOfCompany += parseFloat(row.children[11].textContent);
+            });
+
+            document.getElementById('totalCompanyRevenue').textContent = totalCompanyRevenue.toFixed(2);
+            document.getElementById('totalArtistRevenue').textContent = totalArtistRevenue.toFixed(2);
+            document.getElementById('totalPreviousDue').textContent = totalPrevDue.toFixed(2);
+            document.getElementById('totalProfitOfCompany').textContent = totalProfitOfCompany.toFixed(2);
+        }
+
+        document.getElementById('exportCSV').addEventListener('click', function() {
+            const rows = document.querySelectorAll('#revenueTable tbody tr');
+            let csvContent = "Date,Label Name,Artist Name,USD,Client FX Rate,Company FX Rate,Client BDT,Company BDT,Revenue Deduction,Final Artist Revenue,Previous Month Due,Total Company Revenue,Profit of Company,Company Bank Rate,Artist Bank Rate,Bank Rate Diff\n";
+            
+            rows.forEach(row => {
+                const rowData = Array.from(row.children).map(cell => cell.textContent);
+                csvContent += rowData.join(",") + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            saveAs(blob, "revenue_split.csv");
+        });
+
+        document.getElementById('exportExcel').addEventListener('click', function() {
+            const rows = document.querySelectorAll('#revenueTable tbody tr');
+            const data = [];
+            
+            rows.forEach(row => {
+                const rowData = Array.from(row.children).map(cell => cell.textContent);
+                data.push(rowData);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet([["Date", "Label Name", "Artist Name", "USD", "Client FX Rate", "Company FX Rate", "Client BDT", "Company BDT", "Revenue Deduction", "Final Artist Revenue", "Previous Month Due", "Total Company Revenue", "Profit of Company", "Company Bank Rate", "Artist Bank Rate", "Bank Rate Diff"], ...data]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Revenue Split");
+
+            XLSX.writeFile(wb, "revenue_split.xlsx");
+        });
+    </script>
 </body>
 </html>
